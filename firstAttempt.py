@@ -18,21 +18,19 @@ def assembleMidiMSG(midiMsg, droneOn, channel, keyNumber, velocity):
     midiMsgVelocity = ""
 
     if droneOn == True:
-        midiMsgStatus = "1001"
-        midiMsgKeyNumberB = str(bin(keyNumber))
-        midiMsgKeyNumber = midiMsgKeyNumberB[2:]
-        midiMsgVelocityB = str(bin(velocity))
-        midiMsgVelocity = midiMsgVelocityB[2:]
+        status = 128 + channel
+        midiMsgStatus = hex(status)
+        midiMsgKeyNumber = hex(keyNumber)
+        midiMsgVelocity = hex(velocity)
     else:
-        midiMsgStatus = "1000"
-        midiKeyNumberB = str(bin(0))
-        midiKeyNumber = midiKeyNumber[:2]
-        midiMsgVelocityB = str(bin(0))
-        midiMsgVelocity = midiMsgVelocity[:2]
+        midiMsgStatus = hex(0)
+        midiKeyNumber = hex(0)
+        midiMsgVelocity = hex(0)
 
-    midiMsg += midiMsgStatus + midiMsgKeyNumber + midiMsgVelocity
+    midiMsg += midiMsgStatus + ", " + midiMsgKeyNumber + ", " + midiMsgVelocity
     if midiMsg == "":
         print("MidiMsg empty")
     return midiMsg
 
-print(assembleMidiMSG(midiMsg, True, channel, keyNumber, velocity))
+print(assembleMidiMSG(midiMsg, True, channel, 80, velocity))
+
